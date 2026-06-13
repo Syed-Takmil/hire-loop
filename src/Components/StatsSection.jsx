@@ -9,18 +9,15 @@ import {BriefcaseFill
 } from '@gravity-ui/icons';
 const StatsSection = () => {
     return (
-       <section className="px-5 p-20  grid gap-3 bg-[url('/globe.png')] bg-cover  h-full justify-center place-items-end-safe bg-center ">
+       <section className=" pt-20  grid gap-2 bg-[url('/globe.png')] bg-cover   justify-center items-end-safe bg-center ">
 
-<div></div>
-<div></div>
-<div></div>
-    <h2 className="max-w-2xl  text-center mx-auto text-3xl font-medium text-white ">
+    <h2 className="max-w-2xl mt-6  text-center mx-auto text-3xl font-medium text-white ">
       Assisting over 15,000 job seekers find their dream positions.
     </h2>
 
   {/* Cards */}
-  <div className=" grid w-full max-w-7xl m-2 gap-4 p-4 md:grid-cols-4">
-    <div className="rounded-2xl grid items-center justify-start border-blue-900 border-2 bg-transparent p-6 backdrop-blur">
+  <div className=" grid items-center   max-w-7xl m-2 gap-4 p-4 md:grid-cols-4">
+    <div className="rounded-2xl grid items-center  border-blue-900 border-3 bg-transparent p-6 backdrop-blur">
         <BriefcaseFill/>
       <p className="text-5xl font-bold text-white">50K</p>
       <p className="mt-2 text-zinc-400">Active Jobs</p>
@@ -45,6 +42,7 @@ const StatsSection = () => {
     </div>
   </div>
 </section>
+
     );
 };
 

@@ -9,3 +9,11 @@
 @import "tailwindcss";
 @import "@heroui/styles"; 
 
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  display: none;
+}
+ 
+
+
+

@@ -17,14 +17,15 @@ const links=<>
           <Link href="/contact">Pricing</Link>
         
     <div className="h-6 hidden md:block w-px bg-gray-300"></div>
-<Link href={'/signin'} className="text-blue-500">Sign In</Link>
+<Link href={'/login'} className="text-blue-500">Sign In</Link>
+          <Link href='/register'>
           <Button color="primary">
-            Get Started
-          </Button>
+            Get Started 
+          </Button></Link>
           </>
   return (
-    <nav className="border-b  ">
-      <div className="mx-auto bg-[#222222] flex m-2 rounded-xl max-w-7xl items-center justify-between p-2 px-5">
+    <nav className="border-b sticky m-2 z-10 top-0" position="sticky">
+      <div className="mx-auto bg-[#222222] flex  rounded-xl max-w-7xl items-center justify-between p-2 px-5">
         
         {/* Logo */}
         <Link href="/" className="text-2xl font-bold">
@@ -53,7 +54,7 @@ const links=<>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="border-t md:hidden">
+        <div className="border-t sticky top-0 z-20 md:hidden">
           <div className="flex flex-col gap-4 p-4">
            {links}
           </div>
