@@ -19,5 +19,14 @@ export const auth = betterAuth({
   socialProviders: { 
 
   }, 
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        required: true, // or false, depending on your needs
+        defaultValue: "seeker",
+      },
+    },
+  },
 });
 

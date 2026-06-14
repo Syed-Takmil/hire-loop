@@ -2,26 +2,29 @@
 
 
 import React from "react";
-
-import {Button, Description, FieldError, Form, Input, Label, TextField} from "@heroui/react";
+import {Description, Label, Radio, RadioGroup} from "@heroui/react";
+import {Button, FieldError, Form, Input, TextField} from "@heroui/react";
 import { authClient } from '../../lib/auth-client';
 import {  toast } from 'react-toastify';
-import { Eye, EyeClosed } from "@gravity-ui/icons";
+import { Eye, EyeClosed, EyeSlash } from "@gravity-ui/icons";
 
 export default function SignUpPage() {
+    const [role, setRole] = React.useState("seeker");
     const [isShowPassword, setIsShowPassword] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
   const onSubmit = async (e) => {
+    
     setLoading(true);
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const userdata = Object.fromEntries(formData.entries());
-
+const finalRole=userdata.role || role; // Fallback to state if form value is not present
     const { data, error } = await authClient.signUp.email({
-    name: userdata.username, // required
-    email: userdata.email, // required
-    password: userdata.password, // re
-    callbackURL: "/login",
+    name: userdata.username, 
+    email: userdata.email,  
+    password: userdata.password, 
+    role: finalRole,
+    callbackURL: "/login?registered=true",
 });
 if(error){
      toast.error(error.message || "An error occurred during registration.");
@@ -29,18 +32,20 @@ if(error){
 }
 else{
     toast.success("Account created successfully! .");
-    setTimeout(() => {
-        window.location.href = "/login";
-    }, 2000);
+     window.location.href = "/login?registered=true";
 }
 
-  };
+  };   
 
   return (
    <div className="min-h-screen grid   items-center justify-center bg-[url('/ctabg.png')] w-full bg-clip-content  bg-center">
      <Form  onSubmit={onSubmit}
-     className="flex m-3 w-full bg-black/40 hover:-translate-y-3 p-12 flex-col gap-5  mx-auto my-5 border-2 hover:border-blue-500 transition-all duration-500 rounded-2xl" >
-
+     className="flex m-3 w-full bg-black/40 hover:-translate-y-3 p-12 flex-col gap-4  mx-auto my-5 border-2 hover:border-blue-500 transition-all duration-500 rounded-2xl" >
+  <h2 className='text-2xl font-bold text-center'>Create Account</h2>
+  <p className='text-center text-zinc-400'  >
+    Fill in the Fields below to create your account for free
+  </p>
+<div className='h-3 border-b border-gray-300'></div>
          <TextField
         isRequired
         name="username"
@@ -89,13 +94,34 @@ else{
       >
         <Label>Password</Label>
         <Input placeholder="Enter your password" />
-         <div className='cursor-pointer absolute top-9 right-5 ' onClick={()=>setIsShowPassword(!isShowPassword)}>{isShowPassword ? <Eye/> : <EyeClosed />}</div>
+         <div className='cursor-pointer absolute top-9 right-5 ' onClick={()=>setIsShowPassword(!isShowPassword)}>{isShowPassword ?<EyeSlash/>: <Eye/> }</div>
         <Description>Must be at least 8 characters with 1 uppercase and 1 number</Description>
         <FieldError />
       </TextField>
 
-      <div className="flex justify-center gap-4 items-center">
-        <Button type="submit" isLoading={loading}>
+ <div className="flex gap-5 m-4">
+      <Label>Select Role</Label>
+      <RadioGroup defaultValue="seeker" onChange={(v)=>setRole(v)} name="role" orientation="horizontal">
+        <Radio value="seeker">
+          <Radio.Control>
+            <Radio.Indicator />
+          </Radio.Control>
+          <Radio.Content>
+            <Label>Job Seeker</Label>
+          </Radio.Content>
+        </Radio>
+        <Radio value="recruiter">
+          <Radio.Control>
+            <Radio.Indicator />
+          </Radio.Control>
+          <Radio.Content>
+            <Label>Recruiter</Label>
+          </Radio.Content>
+        </Radio>
+      </RadioGroup>
+      </div>
+      <div className=" w-full flex justify-center gap-4 items-center">
+        <Button className="w-full" type="submit" isLoading={loading}>
            {loading
     ? "Creating Account..."
     : "Create Account"}
@@ -104,6 +130,10 @@ else{
           Reset
         </Button>
       </div>
+
+   <p className="text-center text-lg">
+       Already have an account? <a href="/login" className="text-blue-500 hover:underline">Login </a>
+   </p>
     </Form>
    </div>
   );
